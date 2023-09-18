@@ -7,17 +7,23 @@ interface ItemProps {
 }
 
 export default function Item(props: ItemProps) {
-    function itemSelecionado(selecionado: boolean) {
-        return selecionado ? style.itemSelecionado : '';
-    }
-    
+    const itemSelecionado = props.tarefa.selecionado ? style.itemSelecionado : '';
+    const itemCompletado = props.tarefa.completado ? style.itemCompletado : '';
+
+
     return (
         <li
-            className={`${style.item} ${itemSelecionado(props.tarefa.selecionado)}`}
-            onClick={() => props.selecionaTarefa(props.tarefa)}
+            className={`${style.item} ${itemSelecionado} ${itemCompletado}`}
+            onClick={() => !props.tarefa.completado && props.selecionaTarefa(props.tarefa)}
         >
             <h3>{props.tarefa.tarefa}</h3>
             <span>{props.tarefa.tempo}</span>
+            {props.tarefa.completado &&
+                <span
+                    className={style.concluido}
+                    aria-label="tarefa completada"
+                />
+            }
         </li>
     )
 }
